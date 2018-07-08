@@ -15,11 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core import views
+from core import views as core_views
+from services import views as services_views
+from django.conf import settings
 
 urlpatterns = [
     # urls for admin
     path('admin/', admin.site.urls),
     # urls for core
-    path('', include('core.urls'))
+    path('', include('core.urls')),
+    # urls for services
+    path('', include('services.urls'))
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
